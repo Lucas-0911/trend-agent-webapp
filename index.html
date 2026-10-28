@@ -6,97 +6,142 @@
 <title>Trend Agent</title>
 <style>
 :root {
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --ok: #16a34a;
-  --bad: #dc2626;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
+  --bg: #0b0f14;
+  --bg-elevated: #12171e;
+  --card: #161c24;
+  --border: #2a3340;
+  --text: #e8eef6;
+  --muted: #8b9bb0;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --ok: #22c55e;
+  --bad: #ef4444;
+  --accent: #60a5fa;
 }
 * { box-sizing: border-box; }
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
   margin: 0;
-  padding: 24px 16px 48px;
+  padding: 32px 16px 64px;
+  line-height: 1.5;
 }
-.container { max-width: 960px; margin: 0 auto; }
-header { margin-bottom: 24px; }
-h1 { font-size: 1.75rem; margin: 0 0 6px; }
-.subtitle { color: var(--muted); margin: 0; }
+.container { max-width: 980px; margin: 0 auto; }
+header {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+h1 {
+  font-size: 1.9rem;
+  font-weight: 650;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+.subtitle { color: var(--muted); margin: 0; font-size: 0.95rem; }
 .card {
   background: var(--card);
-  border-radius: 14px;
-  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
   margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
-  border: 1px solid var(--border);
 }
-.card h3 { margin: 0 0 14px; font-size: 1.1rem; }
-label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
-input, textarea, select {
+.card h3 {
+  margin: 0 0 16px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+input, textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 13px;
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
+  color: var(--text);
   font-size: 14px;
-  margin-bottom: 12px;
-  background: #fff;
+  margin-bottom: 14px;
+  outline: none;
 }
-textarea { min-height: 90px; resize: vertical; }
-.row { display: flex; gap: 12px; flex-wrap: wrap; }
-.row > * { flex: 1; min-width: 180px; }
+input:focus, textarea:focus {
+  border-color: var(--primary);
+}
+textarea { min-height: 100px; resize: vertical; }
+.row { display: flex; gap: 14px; flex-wrap: wrap; }
+.row > div { flex: 1; min-width: 200px; }
 button {
   background: var(--primary);
-  color: #fff;
+  color: white;
   border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 11px 20px;
+  border-radius: 10px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background .15s;
 }
 button:hover { background: var(--primary-hover); }
-button:disabled { background: #94a3b8; cursor: not-allowed; }
-button.secondary { background: #475569; }
+button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+button.secondary:hover { background: var(--bg-elevated); }
 pre {
-  background: #0f172a;
-  color: #e2e8f0;
-  padding: 14px;
-  border-radius: 10px;
+  background: #0a0e13;
+  color: #cbd5e1;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
   overflow: auto;
   font-size: 13px;
   white-space: pre-wrap;
-  margin: 10px 0 0;
+  margin: 12px 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 .item {
-  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 8px;
   cursor: pointer;
-  background: #f8fafc;
+  transition: border-color .15s, background .15s;
 }
-.item:hover { background: #eff6ff; border-color: #bfdbfe; }
+.item:hover {
+  border-color: var(--primary);
+  background: #1a2230;
+}
 .badge {
-  display: inline-block;
   font-size: 11px;
-  padding: 2px 8px;
+  font-weight: 600;
+  padding: 3px 8px;
   border-radius: 999px;
-  background: #e2e8f0;
-  margin-right: 6px;
+  background: #1e3a5f;
+  color: var(--accent);
+  flex-shrink: 0;
 }
-.ok { color: var(--ok); font-weight: 600; }
-.bad { color: var(--bad); font-weight: 600; }
 .status-bar {
   font-size: 13px;
   color: var(--muted);
-  margin-top: 8px;
+  margin-top: 10px;
 }
+.ok { color: var(--ok); font-weight: 600; }
+.bad { color: var(--bad); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -110,7 +155,7 @@ pre {
     <h3>1. Quét dữ liệu đã crawl</h3>
     <button onclick="scan()">Quét thư mục MediaCrawler/data</button>
     <div class="status-bar" id="scanStatus">Chưa quét</div>
-    <div id="itemList" style="margin-top:12px;"></div>
+    <div id="itemList" style="margin-top:14px;"></div>
   </div>
 
   <div class="card">
@@ -130,7 +175,7 @@ pre {
     <input type="hidden" id="source" value="manual">
     <button onclick="doScore()">Chấm điểm & Lưu nếu đạt</button>
     <pre id="scoreOut">Kết quả sẽ hiện ở đây</pre>
-    <div style="margin-top:12px;">
+    <div style="margin-top:14px;">
       <button id="btnAnalyze" onclick="doAnalyze()" disabled>Phân tích & Lưu</button>
     </div>
     <pre id="analyzeOut"></pre>
@@ -160,7 +205,7 @@ async function scan() {
     (d.items || []).forEach(it => {
       const div = document.createElement("div");
       div.className = "item";
-      div.innerHTML = `<span class="badge">${it.source}</span>${it.name}`;
+      div.innerHTML = `<span class="badge">${it.source}</span><span>${it.name}</span>`;
       div.onclick = () => {
         document.getElementById("item").value = it.description || it.name;
         document.getElementById("source").value = it.source;
@@ -168,7 +213,7 @@ async function scan() {
       list.appendChild(div);
     });
     if (!d.items || d.items.length === 0) {
-      list.innerHTML = "<p style='color:#64748b'>Không có dữ liệu. Hãy chạy MediaCrawler trước hoặc dán nội dung thủ công.</p>";
+      list.innerHTML = "<p style='color:#8b9bb0;margin:8px 0'>Không có dữ liệu. Chạy MediaCrawler trước hoặc dán nội dung thủ công.</p>";
     }
   } catch (e) {
     status.textContent = "Lỗi: " + e.message;
@@ -195,7 +240,7 @@ async function doScore() {
     lastScores = d.answers;
     lastId = d.item_id;
     const badge = d.passed
-      ? `<span class="ok">ĐẠT & ĐÃ LƯU</span> (model: ${d.model || "jev"})`
+      ? `<span class="ok">ĐẠT & ĐÃ LƯU</span> <span style="color:#8b9bb0">(model: ${d.model || "jev"})</span>`
       : `<span class="bad">KHÔNG ĐẠT</span>`;
     el.innerHTML = badge + "\n\n" + JSON.stringify(d, null, 2);
     document.getElementById("btnAnalyze").disabled = !d.passed;
