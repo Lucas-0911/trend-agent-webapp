@@ -16,6 +16,12 @@ Chạy độc lập và gắn được vào Hermes Agent hoặc OpenClaw.
 │   ├── scoring_agent.py
 │   ├── analysis_agent.py
 │   └── orchestrator.py
+├── core/
+│   └── event_bus.py          ← Event Bus (event-driven)
+├── platforms/
+│   └── handlers.py           ← Adapter TikTok / Instagram / Facebook
+├── docs/
+│   └── architecture.md       ← Kiến trúc event-driven
 ├── skills/
 │   ├── crawl/SKILL.md
 │   ├── scoring/SKILL.md
@@ -29,6 +35,15 @@ Chạy độc lập và gắn được vào Hermes Agent hoặc OpenClaw.
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+
+## Kiến trúc Event-Driven
+
+Hệ thống đã được mở rộng theo hướng sự kiện để hỗ trợ tự động hóa nội dung đa nền tảng (TikTok, Instagram, Facebook).
+
+Xem chi tiết: [docs/architecture.md](docs/architecture.md)
+
+Luồng chính:
+`trend.detected` → `content.generated` → `approval.granted` → `post.published`
 
 ## Gắn Hermes
 ```bash
