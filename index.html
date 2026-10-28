@@ -1,1 +1,210 @@
-PLACEHOLDER_HTML
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trend Agent</title>
+<style>
+:root {
+  --bg: #0b0f14;
+  --bg-elevated: #12171e;
+  --card: #161c24;
+  --border: #2a3340;
+  --text: #e8eef6;
+  --muted: #8b9bb0;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --ok: #22c55e;
+  --bad: #ef4444;
+  --accent: #60a5fa;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 32px 16px 64px;
+  line-height: 1.5;
+}
+.container { max-width: 980px; margin: 0 auto; }
+header { margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+h1 { font-size: 1.9rem; font-weight: 650; margin: 0 0 6px; letter-spacing: -0.02em; }
+.subtitle { color: var(--muted); margin: 0; font-size: 0.95rem; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; margin-bottom: 16px; }
+.card h3 { margin: 0 0 16px; font-size: 1.05rem; font-weight: 600; color: var(--accent); }
+label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+input, textarea { width: 100%; padding: 11px 13px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; margin-bottom: 14px; outline: none; }
+input:focus, textarea:focus { border-color: var(--primary); }
+textarea { min-height: 100px; resize: vertical; }
+.row { display: flex; gap: 14px; flex-wrap: wrap; }
+.row > div { flex: 1; min-width: 200px; }
+button { background: var(--primary); color: white; border: none; padding: 11px 20px; border-radius: 10px; font-size: 14px; font-weight: 550; cursor: pointer; }
+button:hover { background: var(--primary-hover); }
+button:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+button.secondary:hover { background: var(--bg-elevated); }
+pre { background: #0a0e13; color: #cbd5e1; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); overflow: auto; font-size: 13px; white-space: pre-wrap; margin: 12px 0 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+.item:hover { border-color: var(--primary); background: #1a2230; }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: #1e3a5f; color: var(--accent); }
+.status-bar { font-size: 13px; color: var(--muted); margin-top: 10px; }
+.ok { color: var(--ok); font-weight: 600; }
+.bad { color: var(--bad); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Trend Agent</h1>
+    <p class="subtitle">Quét MediaCrawler → Chuẩn hóa → Chấm điểm (Jev / laya-mlx) → Lưu DB → Gợi ý video theo nền tảng</p>
+  </header>
+
+  <div class="card">
+    <h3>1. Quét dữ liệu đã crawl</h3>
+    <button onclick="scan()">Quét thư mục MediaCrawler/data</button>
+    <div class="status-bar" id="scanStatus">Chưa quét</div>
+    <div id="itemList" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="card">
+    <h3>2. Chấm điểm & Lưu nếu đạt</h3>
+    <div class="row">
+      <div>
+        <label>Domain</label>
+        <input id="domain" value="grocery">
+      </div>
+      <div>
+        <label>API Key Jev (để trống nếu dùng laya-mlx)</label>
+        <input id="apiKey" type="password" placeholder="TYPESAFE_API_KEY">
+      </div>
+    </div>
+    <label>Nội dung sản phẩm / xu hướng</label>
+    <textarea id="item" placeholder="Chọn từ danh sách trên hoặc dán mô tả..."></textarea>
+    <input type="hidden" id="source" value="manual">
+    <button onclick="doScore()">Chấm điểm & Lưu nếu đạt</button>
+    <pre id="scoreOut">Kết quả sẽ hiện ở đây</pre>
+    <div style="margin-top:14px;">
+      <button id="btnAnalyze" onclick="doAnalyze()" disabled>Phân tích & Gợi ý video theo nền tảng</button>
+    </div>
+    <div id="platformCards" style="margin-top:16px;"></div>
+    <pre id="analyzeOut"></pre>
+  </div>
+
+  <div class="card">
+    <h3>3. Dữ liệu đã lưu trong DB</h3>
+    <button class="secondary" onclick="loadSaved()">Tải danh sách đã lưu</button>
+    <pre id="savedOut">Bấm để xem</pre>
+  </div>
+</div>
+
+<script>
+let lastId = null;
+let lastScores = null;
+let lastItem = "";
+
+async function scan() {
+  const status = document.getElementById("scanStatus");
+  status.textContent = "Đang quét...";
+  try {
+    const r = await fetch("/api/scan");
+    const d = await r.json();
+    status.textContent = `Tìm thấy ${d.count} item` + (d.laya_available ? " • laya-mlx sẵn sàng" : "");
+    const list = document.getElementById("itemList");
+    list.innerHTML = "";
+    (d.items || []).forEach(it => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `<span class="badge">${it.source}</span><span>${it.name}</span>`;
+      div.onclick = () => {
+        document.getElementById("item").value = it.description || it.name;
+        document.getElementById("source").value = it.source;
+      };
+      list.appendChild(div);
+    });
+    if (!d.items || d.items.length === 0) {
+      list.innerHTML = "<p style='color:#8b9bb0;margin:8px 0'>Không có dữ liệu. Chạy MediaCrawler trước hoặc dán nội dung thủ công.</p>";
+    }
+  } catch (e) {
+    status.textContent = "Lỗi: " + e.message;
+  }
+}
+
+async function doScore() {
+  const el = document.getElementById("scoreOut");
+  el.textContent = "Đang chấm điểm...";
+  lastItem = document.getElementById("item").value.trim();
+  if (!lastItem) { el.textContent = "Vui lòng nhập nội dung."; return; }
+  try {
+    const r = await fetch("/api/score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        item: lastItem,
+        domain: document.getElementById("domain").value,
+        source: document.getElementById("source").value,
+        api_key: document.getElementById("apiKey").value || null
+      })
+    });
+    const d = await r.json();
+    lastScores = d.answers;
+    lastId = d.item_id;
+    const badge = d.passed
+      ? `<span class="ok">ĐẠT & ĐÃ LƯU</span> <span style="color:#8b9bb0">(model: ${d.model || "jev"})</span>`
+      : `<span class="bad">KHÔNG ĐẠT</span>`;
+    el.innerHTML = badge + "\n\n" + JSON.stringify(d, null, 2);
+    document.getElementById("btnAnalyze").disabled = !d.passed;
+  } catch (e) {
+    el.textContent = "Lỗi: " + e.message;
+  }
+}
+
+async function doAnalyze() {
+  const el = document.getElementById("analyzeOut");
+  const cards = document.getElementById("platformCards");
+  el.textContent = "Đang phân tích...";
+  cards.innerHTML = "";
+  try {
+    const r = await fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ item_id: lastId, item: lastItem, scores: lastScores })
+    });
+    const d = await r.json();
+    el.textContent = d.analysis + "\n\n--- Preview Telegram ---\n" + d.telegram;
+
+    if (d.platforms) {
+      cards.innerHTML = "<h4 style='margin:0 0 10px;color:#60a5fa'>Gợi ý theo nền tảng</h4>";
+      for (const [name, info] of Object.entries(d.platforms)) {
+        const card = document.createElement("div");
+        card.style.cssText = "background:#12171e;border:1px solid #2a3340;border-radius:12px;padding:14px;margin-bottom:10px;";
+        card.innerHTML = `
+          <div style="font-weight:600;color:#60a5fa;margin-bottom:6px">${name}</div>
+          <div style="font-size:13px;color:#cbd5e1">
+            <div><b>Thời lượng:</b> ${info.duration}</div>
+            <div><b>Hook:</b> ${info.hook}</div>
+            <div><b>Cấu trúc:</b> ${info.structure}</div>
+            <div><b>Mẹo:</b> ${info.tips}</div>
+          </div>`;
+        cards.appendChild(card);
+      }
+    }
+  } catch (e) {
+    el.textContent = "Lỗi: " + e.message;
+  }
+}
+
+async function loadSaved() {
+  const el = document.getElementById("savedOut");
+  el.textContent = "Đang tải...";
+  try {
+    const r = await fetch("/api/saved");
+    const d = await r.json();
+    el.textContent = JSON.stringify(d.items, null, 2);
+  } catch (e) {
+    el.textContent = "Lỗi: " + e.message;
+  }
+}
+</script>
+</body>
+</html>
