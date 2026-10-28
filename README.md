@@ -1,6 +1,6 @@
-# Trend Agent — Agent Architecture
+# Trend Agent — Agent + Skill Architecture
 
-Hệ thống theo hướng agent. Mỗi bước là một agent riêng, Orchestrator điều phối.
+Chạy độc lập và gắn được vào Hermes Agent hoặc OpenClaw.
 
 ## Cấu trúc
 
@@ -10,25 +10,30 @@ Hệ thống theo hướng agent. Mỗi bước là một agent riêng, Orchestr
 ├── config.py
 ├── db.py
 ├── routes.py
-├── index.html
 ├── agents/
 │   ├── base.py
 │   ├── crawl_agent.py
 │   ├── scoring_agent.py
 │   ├── analysis_agent.py
 │   └── orchestrator.py
+├── skills/
+│   ├── crawl/SKILL.md
+│   ├── scoring/SKILL.md
+│   ├── analysis/SKILL.md
+│   └── TOOLS.md
+├── index.html
 └── requirements.txt
 ```
 
-## Luồng
-
-1. CrawlAgent — đọc MediaCrawler, chuẩn hóa
-2. ScoringAgent — Jev hoặc laya-mlx
-3. AnalysisAgent — gợi ý video theo nền tảng
-4. Orchestrator — điều phối
-
-## Chạy
-
+## Chạy webapp
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+
+## Gắn Hermes
+```bash
+cp -r skills/* ~/.hermes/profiles/<profile>/skills/
+```
+
+## Gắn OpenClaw
+Đăng ký 3 tool trong skills/TOOLS.md.
