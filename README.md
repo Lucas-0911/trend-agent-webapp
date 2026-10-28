@@ -1,33 +1,34 @@
-# Trend Agent
+# Trend Agent — Agent Architecture
 
-Kiến trúc đã tách module.
+Hệ thống theo hướng agent. Mỗi bước là một agent riêng, Orchestrator điều phối.
 
 ## Cấu trúc
 
 ```
 .
-├── main.py          # Entry point (FastAPI app)
-├── config.py        # Cấu hình (path, API, flags)
-├── db.py            # SQLite init + connection
-├── crawler.py       # Quét + chuẩn hóa MediaCrawler
-├── scoring.py       # Jev API hoặc laya-mlx
-├── analysis.py      # Gợi ý video theo nền tảng
-├── routes.py        # API endpoints
-├── index.html       # Giao diện dark theme
+├── main.py
+├── config.py
+├── db.py
+├── routes.py
+├── index.html
+├── agents/
+│   ├── base.py
+│   ├── crawl_agent.py
+│   ├── scoring_agent.py
+│   ├── analysis_agent.py
+│   └── orchestrator.py
 └── requirements.txt
 ```
+
+## Luồng
+
+1. CrawlAgent — đọc MediaCrawler, chuẩn hóa
+2. ScoringAgent — Jev hoặc laya-mlx
+3. AnalysisAgent — gợi ý video theo nền tảng
+4. Orchestrator — điều phối
 
 ## Chạy
 
 ```bash
-pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8000
-```
-
-## Biến môi trường (tuỳ chọn)
-
-```bash
-export MEDIACRAWLER_PATH=~/MediaCrawler
-export TYPESAFE_API_KEY=your_key
-export USE_LAYA_MLX=true          # chỉ trên Apple Silicon
 ```
