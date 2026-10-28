@@ -1,28 +1,21 @@
-# Trend Agent Skills for Hermes
+# Trend Agent — Hướng dẫn cho Hermes
 
-Copy thư mục skills vào Hermes để agent tự thực hiện luồng trend.
-
-## Cài nhanh
+## Cài đặt
 
 ```bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+hermes setup
 hermes profiles create trend
-cp -r skills/trend-* ~/.hermes/profiles/trend/skills/
+cp skills/AGENT.md ~/.hermes/profiles/trend/
+cp -r skills/trend-pipeline ~/.hermes/profiles/trend/skills/
 hermes --profile trend
 ```
 
-Nói: `chạy trend pipeline`
+## Sử dụng
+Nói: `chạy trend pipeline` hoặc `soi sản phẩm hot hôm nay`
 
-## Skills
+Agent sẽ tự thu thập → chấm điểm → gợi ý video.
 
-- **trend-crawl** — thu thập / chuẩn hóa dữ liệu
-- **trend-score** — chấm điểm Jev hoặc laya-mlx
-- **trend-analyze** — gợi ý video theo nền tảng
-- **trend-pipeline** — chạy full flow
-
-## Biến môi trường
-
-```bash
-export TYPESAFE_API_KEY=...
-export USE_LAYA_MLX=true
-export MEDIACRAWLER_PATH=~/MediaCrawler
-```
+## File quan trọng
+- skills/AGENT.md — vai trò agent
+- skills/trend-pipeline/SKILL.md — quy trình đầy đủ
