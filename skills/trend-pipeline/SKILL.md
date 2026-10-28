@@ -1,30 +1,31 @@
-# Pipeline — Tìm ngách để bán
+# Pipeline — Tìm ngách và gợi ý video test
 
 ## Purpose
-Tìm sản phẩm / ngách có nhu cầu và đáng bán, rồi đề xuất cách test.
+Tìm ngách đáng bán, sau đó gợi ý cách làm video test nhu cầu.
 
 ## Triggers
 - tìm ngách
 - chạy trend pipeline
 - cái gì đang bán được
-- soi sản phẩm hot
+- gợi ý video test
 
 ## Quy trình
 
 ### 1. Thu thập
-Đọc MediaCrawler (review, unboxing, hỏi mua) hoặc dùng từ khóa người dòng.
+Đọc MediaCrawler hoặc dùng từ khóa. Ưu tiên review, unboxing, hỏi mua.
 
 ### 2. Đánh giá ngách
-- demand, competition, easy_to_source, risk
-- Chỉ giữ khi demand ≥ high, cạnh tranh không cao, dễ nhập, risk > 0.6
+demand, competition, easy_to_source, risk.
+Chỉ giữ ngách demand cao, dễ nhập, rủi ro thấp.
 
-### 3. Đề xuất cách test
-- Kênh nên test trước
-- Góc nội dung kiểm tra nhu cầu
-- Việc làm ngay: nhập thử, đăng 1–2 bài
+### 3. Gợi ý video test
+Video 15–30s: Hook → Show sản phẩm → Giá/lợi ích → CTA
+
+Nếu muốn chuyên nghiệp hơn, tham khảo video-shotcraft:
+https://github.com/Vincentwei1021/video-shotcraft
 
 ### 4. Trả kết quả
-Ngách + lý do, kênh test, cách làm nội dung, việc làm ngay.
+Ngách + lý do, kênh test, kịch bản video ngắn, việc làm ngay.
 
 ## Quy tắc
-Ưu tiên ngách bán được. Không đề xuất chỉ vì hot.
+Ưu tiên ngách bán được. Video chỉ để test.
