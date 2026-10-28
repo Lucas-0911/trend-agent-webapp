@@ -1,45 +1,36 @@
-# Trend Pipeline
+# Trend Pipeline — Xây dựng thương hiệu
 
 ## Purpose
-Skill chính. Điều phối toàn bộ luồng agent: thu thập → chấm điểm → gợi ý nội dung.
+Thu thập ý tưởng → đánh giá phù hợp thương hiệu → gợi ý nội dung theo nền tảng.
 
 ## Triggers
 - chạy trend pipeline
-- soi sản phẩm hot
-- soi trend hôm nay
-- làm full flow
-- tìm cái đáng bán
+- gợi ý nội dung brand
+- soi trend cho thương hiệu
+- lên ý tưởng mạng xã hội
 
-## Quy trình agent phải làm
+## Quy trình
 
-### Bước 1 — Thu thập (Crawl)
-- Kiểm tra có dữ liệu MediaCrawler không.
-- Nếu có: đọc JSON/JSONL, chuẩn hóa, loại trùng.
-- Nếu không: hỏi người dùng dán mô tả hoặc từ khóa.
-- Giữ tối đa 10 item chất lượng cao.
+### Bước 1 — Thu thập ý tưởng
+- Đọc data MediaCrawler nếu có
+- Hoặc hỏi: ngành hàng, tone thương hiệu, đối tượng khách
+- Tạo danh sách ý tưởng nội dung tiềm năng
 
-### Bước 2 — Chấm điểm (Score)
-Đánh giá:
-- sell_potential: low / medium / high / very_high
-- easy_to_source: hard / medium / easy
-- low_risk: 0.0 – 1.0
+### Bước 2 — Đánh giá brand
+- brand_fit, engagement_potential, consistency, risk
+- Chỉ giữ khi brand_fit = high, engagement ≥ medium, risk > 0.7
 
-Chỉ giữ khi sell_potential ≥ high và low_risk > 0.7.
-
-### Bước 3 — Phân tích (Analyze)
-Tạo gợi ý cho:
-- TikTok / Reels (15–25s)
-- Facebook / Zalo (20–40s)
-- YouTube Shorts (30–50s)
-- Instagram (Reel/carousel)
+### Bước 3 — Gợi ý nội dung
+- TikTok/Reels: góc brand + hook + CTA theo dõi
+- Facebook/Zalo: câu chuyện brand + caption + CTA
+- YouTube Shorts: giới thiệu brand + CTA đăng ký
+- Instagram: aesthetic đúng brand + CTA lưu/theo dõi
 
 ### Bước 4 — Trả kết quả
-Tiếng Việt:
-1. Item đã pass (kèm điểm)
-2. Gợi ý video theo nền tảng
-3. Việc nên làm ngay
+1. Ý tưởng phù hợp brand
+2. Gợi ý theo nền tảng
+3. Nên đăng nền tảng nào trước
+4. Việc làm ngay
 
 ## Quy tắc
-- Không bỏ bước score.
-- Không đề xuất item chưa pass.
-- Không bịa số liệu.
+Không đề xuất lệch brand. Hỏi thêm nếu thiếu thông tin thương hiệu.
