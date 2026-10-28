@@ -1,35 +1,35 @@
-# Nghiệp vụ: Xây dựng thương hiệu trên mạng xã hội
+# Nghiệp vụ: Tìm ngách để bán → Xây dựng thương hiệu
 
-## 1. Mục tiêu
-Giúp hộ kinh doanh nhỏ xây dựng thương hiệu đều đặn và nhất quán trên mạng xã hội.
+## Giai đoạn hiện tại (ưu tiên)
+**Tìm ra các ngách có thể bán được.**
 
-Kết quả mỗi lần chạy:
-- Có ý tưởng nội dung phù hợp thương hiệu
-- Biết ý tưởng nào nên làm, cái nào nên bỏ
-- Có hướng dẫn cụ thể để làm bài/video trên từng nền tảng
+Xây dựng thương hiệu là bước sau, khi đã có ngách rõ.
 
-## 2. Thông tin thương hiệu cần có
-- Ngành / sản phẩm
-- Đối tượng khách
-- Tone giọng
-- Thông điệp chính
-- Những gì không muốn xuất hiện
+## Mục tiêu trước mắt
+1. Phát hiện sản phẩm / xu hướng đang có nhu cầu
+2. Lọc ra những ngách đáng nhập và đáng bán
+3. Biết nên bán trên kênh nào trước
 
-## 3. Luồng
+## Luồng (Giai đoạn 1 — Tìm ngách)
 
-### Bước 1 — Thu thập ý tưởng
-Từ MediaCrawler hoặc người dùng nhập.
+### Bước 1 — Thu thập tín hiệu thị trường
+- MediaCrawler: video review, unboxing, tìm mua, so sánh
+- Hoặc người dùng nhập từ khóa / lĩnh vực
 
-### Bước 2 — Đánh giá
-- brand_fit, engagement_potential, consistency, safety
-- Chỉ giữ khi brand_fit = high, engagement ≥ medium, safety > 0.7
+### Bước 2 — Đánh giá ngách
+- demand, competition, margin_potential, easy_to_source, risk
+- Chỉ giữ khi demand cao, cạnh tranh không quá cao, dễ nhập, rủi ro thấp
 
-### Bước 3 — Hướng dẫn theo nền tảng
-TikTok/Reels, Facebook/Zalo, YouTube Shorts, Instagram.
-Mỗi nền tảng: góc nội dung, hook, cấu trúc, tone, CTA.
+### Bước 3 — Đề xuất kênh test
+- Kênh nên test trước
+- Góc nội dung để kiểm tra nhu cầu
+- Việc làm ngay: nhập thử số lượng nhỏ, đăng 1–2 bài
 
-### Bước 4 — Kế hoạch hành động
-Ý tưởng + lý do, hướng dẫn chi tiết, nền tảng ưu tiên, việc làm ngay.
+### Bước 4 — Kết quả
+Ngách đáng bán + lý do, kênh test, cách làm nội dung test, việc làm ngay.
 
-## 4. Nguyên tắc
-Ưu tiên nhất quán thương hiệu. Không lệch brand. Không bịa số liệu. Không tự đăng bài.
+## Giai đoạn sau
+Khi đã có ngách bán được mới chuyển sang xây dựng thương hiệu.
+
+## Nguyên tắc
+Ưu tiên ngách có nhu cầu thật và dễ nhập. Không đề xuất chỉ vì hot.

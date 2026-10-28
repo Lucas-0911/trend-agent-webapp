@@ -1,33 +1,30 @@
-# Pipeline — Xây dựng thương hiệu
+# Pipeline — Tìm ngách để bán
 
 ## Purpose
-Thu thập ý tưởng → đánh giá phù hợp thương hiệu → hướng dẫn làm trên từng nền tảng.
+Tìm sản phẩm / ngách có nhu cầu và đáng bán, rồi đề xuất cách test.
 
 ## Triggers
+- tìm ngách
 - chạy trend pipeline
-- gợi ý nội dung brand
-- lên ý tưởng mạng xã hội
+- cái gì đang bán được
+- soi sản phẩm hot
 
 ## Quy trình
 
-### 1. Thu thập thông tin brand (nếu chưa có)
-Hỏi: ngành, đối tượng, tone, thông điệp.
+### 1. Thu thập
+Đọc MediaCrawler (review, unboxing, hỏi mua) hoặc dùng từ khóa người dòng.
 
-### 2. Thu thập ý tưởng
-Từ MediaCrawler hoặc từ người dòng.
+### 2. Đánh giá ngách
+- demand, competition, easy_to_source, risk
+- Chỉ giữ khi demand ≥ high, cạnh tranh không cao, dễ nhập, risk > 0.6
 
-### 3. Đánh giá
-brand_fit, engagement_potential, consistency, safety.
-Chỉ giữ khi brand_fit = high, engagement ≥ medium, safety > 0.7.
+### 3. Đề xuất cách test
+- Kênh nên test trước
+- Góc nội dung kiểm tra nhu cầu
+- Việc làm ngay: nhập thử, đăng 1–2 bài
 
-### 4. Hướng dẫn nội dung
-- TikTok/Reels: góc brand, hook, CTA theo dõi
-- Facebook/Zalo: câu chuyện, caption, CTA
-- YouTube Shorts: giới thiệu ngắn, CTA đăng ký
-- Instagram: hướng hình ảnh, caption, CTA lưu
-
-### 5. Trả kết quả
-Ý tưởng + lý do, hướng dẫn theo nền tảng, nền tảng ưu tiên, việc làm ngay.
+### 4. Trả kết quả
+Ngách + lý do, kênh test, cách làm nội dung, việc làm ngay.
 
 ## Quy tắc
-Không đề xuất lệch brand. Hỏi thêm nếu thiếu thông tin.
+Ưu tiên ngách bán được. Không đề xuất chỉ vì hot.
