@@ -52,3 +52,12 @@ cp -r skills/* ~/.hermes/profiles/<profile>/skills/
 
 ## Gắn OpenClaw
 Đăng ký 3 tool trong skills/TOOLS.md.
+
+## Seedline
+
+Web studio nằm cùng repo này. Dán ghi chú trend, tách concept, rồi tạo ảnh in phẳng (title, mô tả, tag đi kèm). Agent Python phía trên giữ nguyên.
+
+```bash
+npm install
+npm run dev
+```

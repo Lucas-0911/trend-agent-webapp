@@ -4,3 +4,9 @@ trend_data.db
 .venv/
 venv/
 .env
+
+node_modules/
+.vercel/
+.tanstack/
+dist/
+.output/
