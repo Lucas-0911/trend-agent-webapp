@@ -1,22 +1,28 @@
 # Trend Crawl
 
 ## Purpose
-Thu thập và chuẩn hóa dữ liệu xu hướng / sản phẩm hot.
+Thu thập và chuẩn hóa dữ liệu xu hướng từ MediaCrawler hoặc từ người dùng.
 
 ## Triggers
-- "soi trend"
-- "crawl dữ liệu"
-- "tìm sản phẩm hot"
-- "scan mediacrawler"
+- soi trend
+- crawl dữ liệu
+- tìm sản phẩm hot
+- scan mediacrawler
 
-## Steps
-1. Kiểm tra thư mục MediaCrawler.
-2. Nếu có file JSON/JSONL → đọc, chuẩn hóa, loại trùng.
-3. Nếu không có → hỏi người dùng dán mô tả.
-4. Trả về danh sách item rõ ràng.
+## MediaCrawler
+Nguồn: https://github.com/NanmiCoder/MediaCrawler
+Xem chi tiết cài đặt trong `skills/MEDIACRAWLER.md`.
+
+### Agent phải làm
+1. Kiểm tra `$MEDIACRAWLER_PATH/data/` (mặc định `~/MediaCrawler/data`).
+2. Đọc file `.json` và `.jsonl`.
+3. Chuẩn hóa: name, description, source.
+4. Loại trùng theo tên.
+5. Ưu tiên item có review, unboxing, giá, mua.
+6. Giữ 10–15 item tốt nhất.
+
+## Nếu không có MediaCrawler
+Hỏi người dùng dán mô tả hoặc từ khóa.
 
 ## Output
-- name, description, source
-
-## Notes
-Không bịa dữ liệu. Ưu tiên item có tín hiệu review/unboxing/giá.
+Danh sách item để đưa sang bước Score.

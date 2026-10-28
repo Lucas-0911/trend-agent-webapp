@@ -3,19 +3,30 @@
 ## Cài đặt
 
 ```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-hermes setup
 hermes profiles create trend
 cp skills/AGENT.md ~/.hermes/profiles/trend/
 cp -r skills/trend-pipeline ~/.hermes/profiles/trend/skills/
+cp skills/MEDIACRAWLER.md ~/.hermes/profiles/trend/skills/
+```
+
+## MediaCrawler
+
+```bash
+git clone https://github.com/NanmiCoder/MediaCrawler.git
+cd MediaCrawler
+uv sync
+uv run playwright install
+uv run main.py --platform dy --lt qrcode --type search
+
+export MEDIACRAWLER_PATH=~/MediaCrawler
+```
+
+Chi tiết: `skills/MEDIACRAWLER.md`
+
+## Chạy
+
+```bash
 hermes --profile trend
 ```
 
-## Sử dụng
-Nói: `chạy trend pipeline` hoặc `soi sản phẩm hot hôm nay`
-
-Agent sẽ tự thu thập → chấm điểm → gợi ý video.
-
-## File quan trọng
-- skills/AGENT.md — vai trò agent
-- skills/trend-pipeline/SKILL.md — quy trình đầy đủ
+Nói: `chạy trend pipeline`
