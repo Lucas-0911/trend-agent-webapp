@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+requests
+pydantic
+# Optional on Apple Silicon:
+# laya-mlx

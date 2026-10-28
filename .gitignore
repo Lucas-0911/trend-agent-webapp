@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+trend_data.db
+.venv/
+venv/
+.env

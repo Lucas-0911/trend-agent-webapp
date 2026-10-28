@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trend Agent</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 12px; background: #f8fafc; color: #1e293b; }
+h1 { font-size: 1.6rem; }
+.card { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 16px; }
+label { font-weight: 600; font-size: 0.9rem; }
+input, textarea { width: 100%; padding: 10px; margin: 6px 0 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+button { background: #2563eb; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+button:hover { background: #1d4ed8; }
+button:disabled { background: #94a3b8; cursor: not-allowed; }
+pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 8px; overflow: auto; font-size: 13px; white-space: pre-wrap; }
+.item { padding: 8px; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
+.item:hover { background: #f8fafc; }
+.ok { color: #16a34a; font-weight: 600; }
+.bad { color: #dc2626; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Trend Agent</h1>
+<p>Quét dữ liệu MediaCrawler → chuẩn hóa → chấm điểm Jev / laya-mlx → lưu DB → phân tích.</p>
+
+<div class="card">
+  <h3>1. Quét dữ liệu đã crawl</h3>
+  <button onclick="scan()">Quét MediaCrawler/data</button>
+  <pre id="scanOut">Bấm nút để quét</pre>
+  <div id="list"></div>
+</div>
+
+<div class="card">
+  <h3>2. Chấm điểm & Lưu</h3>
+  <label>API Key Jev (bỏ trống nếu dùng laya-mlx local)</label>
+  <input id="key" type="password" placeholder="TYPESAFE_API_KEY">
+  <label>Domain</label>
+  <input id="domain" value="grocery">
+  <label>Nội dung sản phẩm</label>
+  <textarea id="item" rows="4" placeholder="Chọn từ danh sách trên hoặc dán tay"></textarea>
+  <input type="hidden" id="source" value="manual">
+  <button onclick="doScore()">Chấm điểm & Lưu nếu đạt</button>
+  <pre id="scoreOut"></pre>
+  <button id="btnAn" onclick="doAnalyze()" disabled>Phân tích & Lưu</button>
+  <pre id="anOut"></pre>
+</div>
+
+<div class="card">
+  <h3>3. Dữ liệu đã lưu</h3>
+  <button onclick="loadSaved()">Xem dữ liệu trong DB</button>
+  <pre id="savedOut"></pre>
+</div>
+
+<script>
+let lastId = null, lastScores = null, lastItem = "";
+
+async function scan() {
+  document.getElementById("scanOut").textContent = "Đang quét...";
+  const r = await fetch("/api/scan");
+  const d = await r.json();
+  document.getElementById("scanOut").textContent = `Tìm thấy ${d.count} item` + (d.message ? "\n" + d.message : "") + (d.laya_available ? "\n(laya-mlx local đã sẵn sàng)" : "");
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  (d.items || []).forEach(it => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.textContent = `[${it.source}] ${it.name}`;
+    div.onclick = () => {
+      document.getElementById("item").value = it.description || it.name;
+      document.getElementById("source").value = it.source;
+    };
+    list.appendChild(div);
+  });
+}
+
+async function doScore() {
+  const el = document.getElementById("scoreOut");
+  el.textContent = "Đang chấm điểm...";
+  lastItem = document.getElementById("item").value;
+  const r = await fetch("/api/score", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      item: lastItem,
+      domain: document.getElementById("domain").value,
+      source: document.getElementById("source").value,
+      api_key: document.getElementById("key").value || null
+    })
+  });
+  const d = await r.json();
+  lastScores = d.answers;
+  lastId = d.item_id;
+  el.innerHTML = (d.passed ? '<span class="ok">ĐẠT & ĐÃ LƯU</span>' : '<span class="bad">KHÔNG ĐẠT</span>') + "\n\n" + JSON.stringify(d, null, 2);
+  document.getElementById("btnAn").disabled = !d.passed;
+}
+
+async function doAnalyze() {
+  const el = document.getElementById("anOut");
+  el.textContent = "Đang phân tích...";
+  const r = await fetch("/api/analyze", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ item_id: lastId, item: lastItem, scores: lastScores })
+  });
+  const d = await r.json();
+  el.textContent = d.analysis + "\n\n--- Telegram ---\n" + d.telegram;
+}
+
+async function loadSaved() {
+  const r = await fetch("/api/saved");
+  const d = await r.json();
+  document.getElementById("savedOut").textContent = JSON.stringify(d.items, null, 2);
+}
+</script>
+</body>
+</html>
